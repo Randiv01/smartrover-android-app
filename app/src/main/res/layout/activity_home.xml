@@ -5,172 +5,253 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_dashboard"
-    android:padding="16dp">
+    android:padding="32dp">
 
-    <!-- LEFT PANEL: DIRECTIONAL CONTROLS -->
+    <!-- LEFT PANEL: STEERING (Left/Right) -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/controlPanel"
+        android:id="@+id/panelSteering"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Left (Anchor Start) -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLeft"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/btn_control_background"
-            android:text="◄"
-            android:textColor="@color/blue_accent"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/btnStop"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STEERING"
+            android:textSize="10sp"
+            android:textColor="@color/text_secondary_dark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnStop" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/steeringRow"
+            android:layout_marginBottom="8dp"/>
 
-        <!-- Stop (Center) -->
+        <LinearLayout
+            android:id="@+id/steeringRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLeft"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/btn_control_background"
+                android:text="◄"
+                android:textColor="@color/blue_accent"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRight"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/btn_control_background"
+                android:text="►"
+                android:textColor="@color/blue_accent"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- RIGHT PANEL: THROTTLE (Forward/Backward) + STOP -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/panelThrottle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="THROTTLE"
+            android:textSize="10sp"
+            android:textColor="@color/text_secondary_dark"
+            app:layout_constraintStart_toStartOf="@id/throttleCol"
+            app:layout_constraintEnd_toEndOf="@id/throttleCol"
+            app:layout_constraintBottom_toTopOf="@id/throttleCol"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/throttleCol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnForward"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_control_background"
+                android:text="▲"
+                android:textColor="@color/blue_accent"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBackward"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/btn_control_background"
+                android:text="▼"
+                android:textColor="@color/blue_accent"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        
+        <!-- STOP BUTTON: Left of Throttle -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnStop"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/btn_control_background"
             android:text="STOP"
             android:textColor="#FF5252"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnLeft"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/throttleCol"
+            app:layout_constraintBottom_toBottomOf="@id/throttleCol"
+            app:layout_constraintEnd_toStartOf="@id/throttleCol"/>
 
-        <!-- Right -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnRight"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/btn_control_background"
-            android:text="►"
-            android:textColor="@color/blue_accent"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/btnStop"
-            app:layout_constraintStart_toEndOf="@+id/btnStop"
-            app:layout_constraintTop_toTopOf="@+id/btnStop" />
-
-        <!-- Up/Forward -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnForward"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/btn_control_background"
-            android:text="▲"
-            android:textColor="@color/blue_accent"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btnStop"
-            app:layout_constraintEnd_toEndOf="@+id/btnStop"
-            app:layout_constraintStart_toStartOf="@+id/btnStop" />
-
-        <!-- Down/Backward -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBackward"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/btn_control_background"
-            android:text="▼"
-            android:textColor="@color/blue_accent"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/btnStop"
-            app:layout_constraintStart_toStartOf="@+id/btnStop"
-            app:layout_constraintTop_toBottomOf="@+id/btnStop" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- CENTER PANEL: STATUS & DECORATION -->
-    <ImageView
-        android:id="@+id/imgDashboardCenter"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@mipmap/ic_launcher_foreground"
-        app:tint="@color/blue_pattern_light"
-        android:alpha="0.4"
+    <!-- CENTER PANEL: SYSTEM & EXTRAS -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/panelCenter"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/panelSteering"
+        app:layout_constraintEnd_toStartOf="@id/panelThrottle"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-        
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SMART ROVER"
-        android:textColor="@color/blue_accent"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <!-- RIGHT PANEL: CONNECTION & MODE -->
-    <LinearLayout
-        android:id="@+id/statusPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SMART ROVER"
+            android:textColor="@color/blue_accent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
 
+        <!-- Connection Status -->
         <TextView
             android:id="@+id/tvConnectionStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="OFFLINE"
             android:textColor="@color/text_secondary_dark"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnConnect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/logo_blue"
-            android:text="Connect"
-            android:layout_marginBottom="24dp"
-            app:cornerRadius="20dp" />
-
-        <TextView
-            android:id="@+id/tvModeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MODE"
-            android:textColor="@color/text_secondary_dark"
             android:textSize="12sp"
-            android:layout_marginBottom="4dp"/>
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
 
+        <!-- Dashboard Visual -->
+        <ImageView
+            android:id="@+id/imgDashboardCenter"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@mipmap/ic_launcher_foreground"
+            app:tint="@color/blue_pattern_light"
+            android:alpha="0.3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Extra Controls Row (Connect, Horn, Lights) -->
+        <LinearLayout
+            android:id="@+id/extraControlsRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@id/toggleMode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConnect"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingVertical="0dp"
+                android:backgroundTint="@color/logo_blue"
+                android:text="Connect"
+                android:textSize="10sp"
+                app:cornerRadius="20dp"
+                android:layout_marginEnd="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHorn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@android:drawable/ic_lock_silent_mode_off"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/white"
+                android:backgroundTint="#FF9800"
+                app:cornerRadius="20dp"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLights"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@android:drawable/ic_menu_view"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/white"
+                android:backgroundTint="#FFEB3B"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+
+        <!-- Mode -->
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/toggleMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:selectionRequired="true"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/seekBarSpeed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnManual"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
+                android:paddingVertical="0dp"
                 android:text="Manual"
+                android:textSize="10sp"
                 android:textColor="@color/white"
                 app:strokeColor="@color/blue_accent" />
 
@@ -178,12 +259,28 @@
                 android:id="@+id/btnAuto"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
+                android:paddingVertical="0dp"
                 android:text="Auto"
+                android:textSize="10sp"
                 android:textColor="@color/white"
                 app:strokeColor="@color/blue_accent" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    </LinearLayout>
+        <!-- Speed Slider -->
+        <SeekBar
+            android:id="@+id/seekBarSpeed"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="9"
+            android:progress="5"
+            android:progressTint="@color/blue_accent"
+            android:thumbTint="@color/logo_blue"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

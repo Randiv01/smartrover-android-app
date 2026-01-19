@@ -64,17 +64,20 @@ class HomeActivity : AppCompatActivity() {
                         isManualMode = true
                         bluetoothManager.sendCommand("M")
                         updateControlButtonsState(true)
+                        updateModeHighlight(true)
                     }
                     R.id.btnAuto -> {
                         isManualMode = false
                         bluetoothManager.sendCommand("A")
                         updateControlButtonsState(false)
+                        updateModeHighlight(false)
                     }
                 }
             }
         }
         // Default selection
         binding.toggleMode.check(R.id.btnManual)
+        updateModeHighlight(true) // Initial highlight
 
         // Connect Button
         binding.btnConnect.setOnClickListener {
@@ -91,6 +94,42 @@ class HomeActivity : AppCompatActivity() {
         binding.btnLeft.setOnClickListener { sendCommandIfManual("L") }
         binding.btnRight.setOnClickListener { sendCommandIfManual("R") }
         binding.btnStop.setOnClickListener { sendCommandIfManual("S") }
+
+        // Extra Controls
+        binding.btnHorn.setOnClickListener { bluetoothManager.sendCommand("H") }
+        
+        // Light Toggle (Simple toggle logic)
+        var isLightsOn = false
+        binding.btnLights.setOnClickListener { 
+            isLightsOn = !isLightsOn
+            bluetoothManager.sendCommand("W") // Assuming W toggles or W/w logic. Sending W for now.
+             // Update icon tint if needed, or leave as simple press
+        }
+        
+        // Speed Slider
+        binding.seekBarSpeed.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    // Send speed value (0-9)
+                    bluetoothManager.sendCommand(progress.toString())
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
+        })
+    }
+    
+    private fun updateModeHighlight(isManual: Boolean) {
+        val activeColor = ContextCompat.getColor(this, R.color.blue_accent)
+        val inactiveColor = android.graphics.Color.TRANSPARENT
+        
+        if (isManual) {
+            binding.btnManual.setBackgroundColor(activeColor)
+            binding.btnAuto.setBackgroundColor(inactiveColor)
+        } else {
+            binding.btnManual.setBackgroundColor(inactiveColor)
+            binding.btnAuto.setBackgroundColor(activeColor)
+        }
     }
 
     private fun sendCommandIfManual(command: String) {
