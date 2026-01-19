@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Dark Theme Colors -->
+    <color name="background_dark">#1A1A1A</color>
+    <color name="surface_dark">#2C2C2C</color>
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#B0B0B0</color>
+    <color name="logo_blue">#4285F4</color>
+    
+    <!-- New Blue Colors -->
+    <color name="blue_accent">#4D88FF</color>
+    <color name="blue_pattern_light">#1A2A47</color> <!-- Subtle dark blue for pattern -->
 </resources>

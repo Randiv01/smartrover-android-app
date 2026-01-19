@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.SmartRover" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.SmartRover" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -16,6 +16,13 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
+    </style>
+    
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
     </style>
 </resources>
