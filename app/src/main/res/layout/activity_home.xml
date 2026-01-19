@@ -1,21 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/bg_dashboard"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textViewWelcome"
+    <!-- LEFT PANEL: DIRECTIONAL CONTROLS -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/controlPanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to SmartRover"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Left (Anchor Start) -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLeft"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/btn_control_background"
+            android:text="◄"
+            android:textColor="@color/blue_accent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btnStop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnStop" />
+
+        <!-- Stop (Center) -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStop"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/btn_control_background"
+            android:text="STOP"
+            android:textColor="#FF5252"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnLeft"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Right -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRight"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/btn_control_background"
+            android:text="►"
+            android:textColor="@color/blue_accent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btnStop"
+            app:layout_constraintStart_toEndOf="@+id/btnStop"
+            app:layout_constraintTop_toTopOf="@+id/btnStop" />
+
+        <!-- Up/Forward -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnForward"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/btn_control_background"
+            android:text="▲"
+            android:textColor="@color/blue_accent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btnStop"
+            app:layout_constraintEnd_toEndOf="@+id/btnStop"
+            app:layout_constraintStart_toStartOf="@+id/btnStop" />
+
+        <!-- Down/Backward -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBackward"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/btn_control_background"
+            android:text="▼"
+            android:textColor="@color/blue_accent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/btnStop"
+            app:layout_constraintStart_toStartOf="@+id/btnStop"
+            app:layout_constraintTop_toBottomOf="@+id/btnStop" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- CENTER PANEL: STATUS & DECORATION -->
+    <ImageView
+        android:id="@+id/imgDashboardCenter"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:tint="@color/blue_pattern_light"
+        android:alpha="0.4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+        
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMART ROVER"
+        android:textColor="@color/blue_accent"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:letterSpacing="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- RIGHT PANEL: CONNECTION & MODE -->
+    <LinearLayout
+        android:id="@+id/statusPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvConnectionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OFFLINE"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/logo_blue"
+            android:text="Connect"
+            android:layout_marginBottom="24dp"
+            app:cornerRadius="20dp" />
+
+        <TextView
+            android:id="@+id/tvModeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MODE"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp"/>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnManual"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manual"
+                android:textColor="@color/white"
+                app:strokeColor="@color/blue_accent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAuto"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Auto"
+                android:textColor="@color/white"
+                app:strokeColor="@color/blue_accent" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
