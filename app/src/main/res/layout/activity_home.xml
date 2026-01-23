@@ -7,7 +7,7 @@
     android:background="@drawable/bg_dashboard"
     android:padding="16dp">
 
-    <!-- Title and Status - Compact Top Bar -->
+    <!-- Title and Status -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- RIGHT PANEL: THROTTLE -->
+    <!-- RIGHT PANEL: THROTTLE + STOP -->
     <LinearLayout
         android:id="@+id/panelThrottle"
         android:layout_width="wrap_content"
@@ -142,9 +142,9 @@
                 android:id="@+id/btnStop"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/btn_stop_selector"
+                android:background="@drawable/btn_control_background"
                 android:text="STOP"
-                android:textColor="@color/white"
+                android:textColor="@color/button_red"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:minWidth="0dp"
@@ -230,7 +230,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- CENTER PANEL: Controls -->
+    <!-- CENTER PANEL -->
     <LinearLayout
         android:id="@+id/panelCenter"
         android:layout_width="wrap_content"
@@ -242,7 +242,7 @@
         app:layout_constraintTop_toBottomOf="@id/topBar"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Auto Mode Status (hidden by default) -->
+        <!-- Auto Mode Status -->
         <TextView
             android:id="@+id/tvAutoModeStatus"
             android:layout_width="wrap_content"
@@ -255,7 +255,7 @@
             android:layout_marginBottom="8dp"
             tools:visibility="visible"/>
 
-        <!-- Extra Controls Row -->
+        <!-- Extra Controls -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -345,7 +345,7 @@
                 app:strokeWidth="2dp" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        <!-- Speed Control - Compact -->
+        <!-- Speed Control -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
