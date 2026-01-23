@@ -18,4 +18,20 @@
     <!-- New Blue Colors -->
     <color name="blue_accent">#4D88FF</color>
     <color name="blue_pattern_light">#1A2A47</color> <!-- Subtle dark blue for pattern -->
+    <color name="blue_glow">#6BA3FF</color>
+    
+    <!-- Status Colors -->
+    <color name="status_online">#4CAF50</color> <!-- Green -->
+    <color name="status_offline">#FF5252</color> <!-- Red/Orange -->
+    
+    <!-- Button Colors -->
+    <color name="button_red">#FF5252</color>
+    <color name="button_orange">#FF9800</color>
+    <color name="button_yellow">#FFEB3B</color>
+    <color name="button_yellow_off">#666666</color>
+    <color name="button_disabled">#424242</color>
+    
+    <!-- Panel Background -->
+    <color name="panel_background">#1E1E1E</color>
+    <color name="panel_stroke">#333333</color>
 </resources>
