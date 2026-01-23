@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tvSteeringLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="STEERING"
@@ -31,7 +32,10 @@
             android:id="@+id/steeringRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvSteeringLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLeft"
@@ -66,6 +70,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tvThrottleLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="THROTTLE"
@@ -82,7 +87,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvThrottleLabel"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -106,7 +111,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
-        
+
         <!-- STOP BUTTON: Left of Throttle -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnStop"
