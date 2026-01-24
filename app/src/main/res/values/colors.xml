@@ -8,30 +8,33 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Dark Theme Colors -->
+    <!-- Smart Rover Theme Colors -->
+    <color name="primary_blue">#4A90E2</color>
+    <color name="primary_dark">#1A2332</color>
+    <color name="card_background">#243447</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#8B9BAE</color>
+    <color name="accent_red">#FF5252</color>
+    <color name="accent_orange">#FF9800</color>
+    <color name="accent_yellow">#FFEB3B</color>
+    <color name="success_green">#4CAF50</color>
+    
+    <!-- Legacy/Other Colors -->
     <color name="background_dark">#1A1A1A</color>
     <color name="surface_dark">#2C2C2C</color>
     <color name="text_primary_dark">#FFFFFF</color>
     <color name="text_secondary_dark">#B0B0B0</color>
     <color name="logo_blue">#4285F4</color>
-    
-    <!-- New Blue Colors -->
     <color name="blue_accent">#4D88FF</color>
-    <color name="blue_pattern_light">#1A2A47</color> <!-- Subtle dark blue for pattern -->
+    <color name="blue_pattern_light">#1A2A47</color>
     <color name="blue_glow">#6BA3FF</color>
-    
-    <!-- Status Colors -->
-    <color name="status_online">#4CAF50</color> <!-- Green -->
-    <color name="status_offline">#FF5252</color> <!-- Red/Orange -->
-    
-    <!-- Button Colors -->
+    <color name="status_online">#4CAF50</color>
+    <color name="status_offline">#FF5252</color>
     <color name="button_red">#FF5252</color>
     <color name="button_orange">#FF9800</color>
     <color name="button_yellow">#FFEB3B</color>
     <color name="button_yellow_off">#666666</color>
     <color name="button_disabled">#424242</color>
-    
-    <!-- Panel Background -->
     <color name="panel_background">#1E1E1E</color>
     <color name="panel_stroke">#333333</color>
 </resources>

@@ -23,31 +23,28 @@
         android:theme="@style/Theme.SmartRover"
         tools:targetApi="31">
         
-        <!-- Onboarding Activity (Launcher) -->
+        <!-- Splash Activity (Launcher) -->
         <activity
-            android:name=".Onboarding1Activity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.SmartRover"
-            android:screenOrientation="portrait">
+            android:theme="@style/Theme.SmartRover">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!-- Home Activity -->
+
+        <!-- Onboarding Activity -->
         <activity
-            android:name=".HomeActivity"
+            android:name=".Onboarding1Activity"
             android:exported="false"
-            android:theme="@style/Theme.SmartRover"
-            android:screenOrientation="landscape" />
-            
-        <!-- Main Activity (not currently used) -->
+            android:theme="@style/Theme.SmartRover" />
+        
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.SmartRover"
-            android:screenOrientation="portrait" />
+            android:theme="@style/Theme.SmartRover" />
     </application>
 
 </manifest>

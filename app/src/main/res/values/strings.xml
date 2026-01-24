@@ -1,4 +1,77 @@
 <resources>
     <string name="app_name">SmartRover</string>
     <string name="app_logo">App Logo</string>
+
+    <!-- Connection Page -->
+    <string name="connection_title">Connect Rover</string>
+    <string name="connection_subtitle">Select your device to start driving</string>
+    <string name="scan_devices">Scan Devices</string>
+    <string name="stop_scan">Stop Scan</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="available_devices">Available Devices</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="status_scanning">Scanning...</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="manual_connection">Manual Connection</string>
+    <string name="enter_ip">Enter IP Address</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="wifi">WiFi</string>
+    <string name="connection_type">Connection Type</string>
+
+    <!-- Settings Page -->
+    <string name="settings_title">Settings</string>
+    <string name="section_control">Control Settings</string>
+    <string name="section_car">Car Configuration</string>
+    <string name="section_display">Display &amp; App</string>
+    <string name="label_sensitivity">Steering Sensitivity</string>
+    <string name="label_haptics">Haptic Feedback</string>
+    <string name="desc_haptics">Vibrate on button press</string>
+    <string name="label_calibration">Motor Calibration</string>
+    <string name="desc_calibration">Adjust motor balance</string>
+    <string name="label_speed_limit">Safety Speed Limit</string>
+    <string name="label_keep_screen_on">Keep Screen On</string>
+    <string name="label_dark_mode">Dark Mode</string>
+    <string name="btn_reset">Reset to Defaults</string>
+    <string name="btn_save">Save Settings</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Dashboard</string>
+    <string name="nav_camera">Camera</string>
+    <string name="nav_stats">Statistics</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Telemetry Page -->
+    <string name="telemetry_title">Live Telemetry</string>
+    <string name="label_current_speed">Current Speed</string>
+    <string name="label_battery">Battery Level</string>
+    <string name="label_distance">Distance Traveled</string>
+    <string name="label_signal">Signal Strength</string>
+    <string name="label_active_time">Active Time</string>
+    <string name="label_sensors">Sensor Readings</string>
+    <string name="label_ultrasonic">Ultrasonic</string>
+    <string name="label_temp">Temperature</string>
+    <string name="unit_speed">cm/s</string>
+    <string name="unit_voltage">V</string>
+    <string name="unit_distance">m</string>
+    <string name="btn_export">Export Data</string>
+    <string name="btn_clear_stats">Clear Stats</string>
+
+    <!-- Help Page -->
+    <string name="help_title">Help &amp; Tutorials</string>
+    <string name="faq_title">Frequently Asked Questions</string>
+    <string name="guide_title">Quick Driving Guide</string>
+    <string name="trouble_title">Troubleshooting</string>
+    <string name="search_hint">Search help topics...</string>
+    <string name="faq_q1">How do I connect to my Rover?</string>
+    <string name="faq_a1">Go to the Connection page, select Bluetooth or WiFi, and choose your device from the list.</string>
+    <string name="faq_q2">What is the maximum speed?</string>
+    <string name="faq_a2">The default speed is limited for safety. You can adjust the limit in Settings -> Car Configuration.</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="app_version">App Version: 1.0.0</string>
+
+    <!-- Navigation Drawer -->
+    <string name="nav_open">Open navigation drawer</string>
+    <string name="nav_close">Close navigation drawer</string>
 </resources>

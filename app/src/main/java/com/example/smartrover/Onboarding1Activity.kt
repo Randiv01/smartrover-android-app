@@ -15,8 +15,8 @@ class Onboarding1Activity : AppCompatActivity() {
 
         // Set click listener for the button using view binding
         binding.btnLetsGo.setOnClickListener {
-            // Start the home activity
-            startActivity(Intent(this, HomeActivity::class.java))
+            // Start the main activity
+            startActivity(Intent(this, MainActivity::class.java))
             // Finish the onboarding activity so user can't go back to it
             finish()
         }
