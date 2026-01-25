@@ -29,7 +29,7 @@ class SettingsFragment : Fragment() {
     private fun setupListeners() {
         binding.btnSaveSettings.setOnClickListener {
             Toast.makeText(context, "Settings Saved", Toast.LENGTH_SHORT).show()
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         binding.btnResetDefaults.setOnClickListener {

@@ -170,7 +170,7 @@ class ConnectionFragment : Fragment() {
             return
         }
 
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
             .setTitle("Connect to Device")
             .setMessage("Do you want to connect to ${device.name ?: device.address}?")
             .setPositiveButton("Yes") { _, _ ->

@@ -167,7 +167,7 @@ class HomeActivity : AppCompatActivity() {
         val deviceList = devices.toList()
         val deviceNames = deviceList.map { "${it.name} (${it.address})" }.toTypedArray()
 
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(this, R.style.CustomAlertDialog)
             .setTitle("Select Robot Car")
             .setItems(deviceNames) { _, which ->
                 connectToDevice(deviceList[which])
