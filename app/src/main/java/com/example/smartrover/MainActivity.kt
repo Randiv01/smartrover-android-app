@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.smartrover.databinding.ActivityMainBinding
+import com.example.smartrover.databinding.NavHeaderMainBinding
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        bluetoothManager = BluetoothManager(this)
+        bluetoothManager = BluetoothManager.getInstance(this)
         checkAndRequestPermissions()
         checkBluetoothEnabled()
 
@@ -47,6 +49,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle back stack changes to update toolbar
         supportFragmentManager.addOnBackStackChangedListener {
             updateToolbarForCurrentFragment()
+        }
+
+        // Setup connection observation for header
+        bluetoothManager.onConnectionStateChanged = { connected, deviceName ->
+            runOnUiThread {
+                updateHeaderStatus(connected, deviceName)
+                // Also update current fragment if it's the Dashboard
+                val current = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                if (current is DashboardFragment) {
+                    current.updateConnectionUI(connected, deviceName)
+                }
+            }
+        }
+    }
+
+    private fun updateHeaderStatus(connected: Boolean, deviceName: String?) {
+        val headerView = binding.navView.getHeaderView(0)
+        val tvStatus = headerView.findViewById<TextView>(R.id.tvHeaderStatus)
+        if (connected) {
+            tvStatus.text = "Status: Online ($deviceName)"
+            tvStatus.setTextColor(ContextCompat.getColor(this, R.color.success_green))
+        } else {
+            tvStatus.text = "Status: Disconnected"
+            tvStatus.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         }
     }
 
@@ -99,12 +125,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             true
         }
+        
+        // Initial header update
+        updateHeaderStatus(bluetoothManager.isConnected(), bluetoothManager.getConnectedDeviceName())
     }
 
-    /**
-     * Loads a fragment into the container.
-     * @param clearStack If true, clears the entire back stack (used for primary sections)
-     */
     fun loadFragment(fragment: Fragment, title: String, clearStack: Boolean) {
         if (clearStack) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -125,23 +150,58 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         
         // Update Title
         when (currentFragment) {
-            is DashboardFragment -> binding.toolbar.title = "Smart Rover"
-            is TelemetryFragment -> binding.toolbar.title = "Telemetry"
-            is SettingsFragment -> binding.toolbar.title = "Settings"
-            is ConnectionFragment -> binding.toolbar.title = "Connection Setup"
-            is HelpFragment -> binding.toolbar.title = "Help & Support"
-            is AutoModeFragment -> binding.toolbar.title = "Auto Mode Config"
+            is DashboardFragment -> {
+                binding.toolbar.title = "Smart Rover"
+                binding.navView.setCheckedItem(R.id.nav_dashboard)
+            }
+            is TelemetryFragment -> {
+                binding.toolbar.title = "Telemetry"
+                binding.navView.setCheckedItem(R.id.nav_telemetry)
+            }
+            is SettingsFragment -> {
+                binding.toolbar.title = "Settings"
+                binding.navView.setCheckedItem(R.id.nav_settings)
+            }
+            is ConnectionFragment -> {
+                binding.toolbar.title = "Connection Setup"
+                binding.navView.setCheckedItem(R.id.nav_connection)
+            }
+            is HelpFragment -> {
+                binding.toolbar.title = "Help & Support"
+                binding.navView.setCheckedItem(R.id.nav_help)
+            }
+            is AutoModeFragment -> {
+                binding.toolbar.title = "Auto Mode Config"
+                binding.navView.setCheckedItem(R.id.nav_auto_config)
+            }
+            is AboutFragment -> {
+                binding.toolbar.title = "About"
+                binding.navView.setCheckedItem(R.id.nav_about)
+            }
         }
 
-        // Handle Back Arrow vs Hamburger
-        val isRoot = supportFragmentManager.backStackEntryCount == 0
-        if (isRoot) {
+        // Hamburger icon visibility on all primary pages
+        val isPrimaryPage = currentFragment is DashboardFragment || 
+                           currentFragment is ConnectionFragment ||
+                           currentFragment is AutoModeFragment ||
+                           currentFragment is TelemetryFragment ||
+                           currentFragment is HelpFragment ||
+                           currentFragment is SettingsFragment ||
+                           currentFragment is AboutFragment
+
+        if (isPrimaryPage) {
             toggle?.isDrawerIndicatorEnabled = true
-            binding.bottomNavigation.visibility = View.VISIBLE
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            binding.bottomNavigation.visibility = if (currentFragment is DashboardFragment || 
+                                                     currentFragment is TelemetryFragment) View.VISIBLE else View.GONE
+            
+            binding.toolbar.setNavigationOnClickListener {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
         } else {
             toggle?.isDrawerIndicatorEnabled = false
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            binding.bottomNavigation.visibility = View.GONE // Optional: hide bottom nav on sub-pages
+            binding.bottomNavigation.visibility = View.GONE
             
             binding.toolbar.setNavigationOnClickListener {
                 onBackPressed()
@@ -158,6 +218,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_auto_config -> loadFragment(AutoModeFragment(), "Auto Mode Config", false)
             R.id.nav_help -> loadFragment(HelpFragment(), "Help & Support", false)
             R.id.nav_settings -> loadFragment(SettingsFragment(), "Settings", false)
+            R.id.nav_about -> loadFragment(AboutFragment(), "About", false)
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

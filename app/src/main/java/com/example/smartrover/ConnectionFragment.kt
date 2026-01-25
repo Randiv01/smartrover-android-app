@@ -1,6 +1,7 @@
 package com.example.smartrover
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smartrover.databinding.FragmentConnectionBinding
@@ -50,7 +52,7 @@ class ConnectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bluetoothManager = BluetoothManager(requireContext())
+        bluetoothManager = BluetoothManager.getInstance(requireContext())
         setupRecyclerViews()
         setupListeners()
         updateUIMode()
@@ -58,6 +60,8 @@ class ConnectionFragment : Fragment() {
         if (isBluetoothMode) {
             loadPairedDevices()
         }
+
+        updateConnectionStatusUI()
 
         val filter = IntentFilter().apply {
             addAction(BluetoothDevice.ACTION_FOUND)
@@ -67,11 +71,11 @@ class ConnectionFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        pairedAdapter = BluetoothDeviceAdapter { device -> connectToDevice(device) }
+        pairedAdapter = BluetoothDeviceAdapter { device -> confirmAndConnect(device) }
         binding.rvPairedDevices.layoutManager = LinearLayoutManager(context)
         binding.rvPairedDevices.adapter = pairedAdapter
 
-        availableAdapter = BluetoothDeviceAdapter { device -> connectToDevice(device) }
+        availableAdapter = BluetoothDeviceAdapter { device -> confirmAndConnect(device) }
         binding.rvAvailableDevices.layoutManager = LinearLayoutManager(context)
         binding.rvAvailableDevices.adapter = availableAdapter
     }
@@ -100,28 +104,40 @@ class ConnectionFragment : Fragment() {
         }
 
         binding.btnConnect.setOnClickListener {
-            val status = if (isBluetoothMode) "Connecting to Bluetooth..." else "Connecting to WiFi..."
-            Toast.makeText(context, status, Toast.LENGTH_SHORT).show()
+            if (bluetoothManager.isConnected()) {
+                bluetoothManager.disconnect()
+                updateConnectionStatusUI()
+                Toast.makeText(context, "Disconnected", Toast.LENGTH_SHORT).show()
+            } else {
+                val status = if (isBluetoothMode) "Select a device from the list" else "Connecting to WiFi..."
+                Toast.makeText(context, status, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun updateUIMode() {
         if (isBluetoothMode) {
             binding.btnTypeBluetooth.setBackgroundResource(R.drawable.btn_primary_selector)
-            binding.btnTypeBluetooth.setTextColor(requireContext().getColor(R.color.white))
+            binding.btnTypeBluetooth.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.btnTypeWifi.setBackgroundResource(android.R.color.transparent)
-            binding.btnTypeWifi.setTextColor(requireContext().getColor(R.color.text_secondary))
+            binding.btnTypeWifi.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary))
             binding.layoutManual.visibility = View.GONE
             binding.rvAvailableDevices.visibility = View.VISIBLE
             binding.btnScan.visibility = View.VISIBLE
+            binding.rvPairedDevices.visibility = View.VISIBLE
+            binding.tvPairedLabel.visibility = View.VISIBLE
+            binding.tvAvailableLabel.visibility = View.VISIBLE
         } else {
             binding.btnTypeWifi.setBackgroundResource(R.drawable.btn_primary_selector)
-            binding.btnTypeWifi.setTextColor(requireContext().getColor(R.color.white))
+            binding.btnTypeWifi.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.btnTypeBluetooth.setBackgroundResource(android.R.color.transparent)
-            binding.btnTypeBluetooth.setTextColor(requireContext().getColor(R.color.text_secondary))
+            binding.btnTypeBluetooth.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary))
             binding.layoutManual.visibility = View.VISIBLE
             binding.rvAvailableDevices.visibility = View.GONE
             binding.btnScan.visibility = View.GONE
+            binding.rvPairedDevices.visibility = View.GONE
+            binding.tvPairedLabel.visibility = View.GONE
+            binding.tvAvailableLabel.visibility = View.GONE
         }
     }
 
@@ -148,6 +164,23 @@ class ConnectionFragment : Fragment() {
     }
 
     @SuppressLint("MissingPermission")
+    private fun confirmAndConnect(device: BluetoothDevice) {
+        if (bluetoothManager.isConnected()) {
+            Toast.makeText(context, "Already connected to ${bluetoothManager.getConnectedDeviceName()}. Disconnect first.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Connect to Device")
+            .setMessage("Do you want to connect to ${device.name ?: device.address}?")
+            .setPositiveButton("Yes") { _, _ ->
+                connectToDevice(device)
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
+    @SuppressLint("MissingPermission")
     private fun connectToDevice(device: BluetoothDevice) {
         Toast.makeText(context, "Connecting to ${device.name ?: device.address}...", Toast.LENGTH_SHORT).show()
         
@@ -156,12 +189,30 @@ class ConnectionFragment : Fragment() {
             requireActivity().runOnUiThread {
                 if (success) {
                     Toast.makeText(context, "Connected to ${device.name ?: device.address}", Toast.LENGTH_SHORT).show()
-                    // Optionally navigate back or update UI
+                    updateConnectionStatusUI()
                 } else {
                     Toast.makeText(context, "Connection failed", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()
+    }
+
+    private fun updateConnectionStatusUI() {
+        if (_binding == null) return
+        val connected = bluetoothManager.isConnected()
+        val deviceName = bluetoothManager.getConnectedDeviceName()
+        
+        if (connected) {
+            binding.tvStatusText.text = "Online ($deviceName)"
+            binding.tvStatusText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_green))
+            binding.ivConnectionStatus.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.success_green)
+            binding.btnConnect.text = "DISCONNECT"
+        } else {
+            binding.tvStatusText.text = getString(R.string.status_disconnected)
+            binding.tvStatusText.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary))
+            binding.ivConnectionStatus.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.status_offline)
+            binding.btnConnect.text = getString(R.string.connect)
+        }
     }
 
     override fun onDestroyView() {

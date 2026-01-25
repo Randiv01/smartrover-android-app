@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        bluetoothManager = BluetoothManager(this)
+        bluetoothManager = BluetoothManager.getInstance(this)
 
         checkAndRequestPermissions()
         setupUI()

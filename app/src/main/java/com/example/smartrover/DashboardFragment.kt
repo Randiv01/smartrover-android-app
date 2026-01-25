@@ -28,8 +28,11 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        bluetoothManager = BluetoothManager(requireContext())
+        bluetoothManager = BluetoothManager.getInstance(requireContext())
         setupUI()
+        
+        // Initial Connection UI update
+        updateConnectionUI(bluetoothManager.isConnected(), bluetoothManager.getConnectedDeviceName())
     }
 
     @SuppressLint("MissingPermission")
@@ -53,11 +56,9 @@ class DashboardFragment : Fragment() {
         }
         binding.toggleMode.check(R.id.btnManual)
 
-        // Connect Button
+        // Connect Button Redirection
         binding.btnConnect.setOnClickListener {
-            // In a real scenario, this would trigger the ConnectionActivity or a dialog
-            Toast.makeText(context, "Redirecting to Connection Setup...", Toast.LENGTH_SHORT).show()
-            // (Activity context access if needed)
+            (activity as? MainActivity)?.loadFragment(ConnectionFragment(), "Connection Setup", false)
         }
 
         // Directional Buttons
@@ -92,7 +93,27 @@ class DashboardFragment : Fragment() {
         })
     }
 
+    fun updateConnectionUI(connected: Boolean, deviceName: String?) {
+        if (_binding == null) return
+        
+        if (connected) {
+            binding.tvConnectionStatus.text = "Online ($deviceName)"
+            binding.tvConnectionStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_green))
+            binding.ivConnIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.success_green)
+            binding.btnConnect.text = "DISCONNECT"
+        } else {
+            binding.tvConnectionStatus.text = "Offline"
+            binding.tvConnectionStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_offline))
+            binding.ivConnIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary_blue)
+            binding.btnConnect.text = "CONNECT"
+        }
+    }
+
     private fun sendCommandIfManual(command: String) {
+        if (!bluetoothManager.isConnected()) {
+            Toast.makeText(context, "Please connect to Rover first", Toast.LENGTH_SHORT).show()
+            return
+        }
         if (isManualMode) {
             bluetoothManager.sendCommand(command)
         } else {
