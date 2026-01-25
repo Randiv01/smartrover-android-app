@@ -18,8 +18,16 @@ class BluetoothManager(private val context: Context) {
     // UUID for Serial Port Profile (SPP) which is used by HC-05/HC-06
     private val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
 
+    var onDeviceFound: ((BluetoothDevice) -> Unit)? = null
+    var onDiscoveryFinished: (() -> Unit)? = null
+
     fun isBluetoothEnabled(): Boolean {
         return bluetoothAdapter?.isEnabled == true
+    }
+
+    @SuppressLint("MissingPermission")
+    fun enableBluetooth() {
+        bluetoothAdapter?.enable()
     }
 
     @SuppressLint("MissingPermission")
@@ -30,6 +38,19 @@ class BluetoothManager(private val context: Context) {
             e.printStackTrace()
             null
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun startDiscovery() {
+        if (bluetoothAdapter?.isDiscovering == true) {
+            bluetoothAdapter.cancelDiscovery()
+        }
+        bluetoothAdapter?.startDiscovery()
+    }
+
+    @SuppressLint("MissingPermission")
+    fun stopDiscovery() {
+        bluetoothAdapter?.cancelDiscovery()
     }
 
     @SuppressLint("MissingPermission")
